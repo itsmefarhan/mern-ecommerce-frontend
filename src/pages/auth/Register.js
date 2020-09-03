@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { register } from "../../api/auth";
+import { register, isAuthenticated } from "../../api/auth";
 
-const Register = () => {
+const Register = (props) => {
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -34,6 +34,10 @@ const Register = () => {
       }
     });
   };
+
+  if (isAuthenticated()) {
+    props.history.push("/");
+  }
 
   return (
     <form className="form" onSubmit={handleSubmit}>

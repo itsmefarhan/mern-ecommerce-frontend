@@ -13,7 +13,7 @@ const Navbar = ({ history }) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-5">
       <Link className="navbar-brand" to="/">
         The Market
       </Link>
@@ -32,11 +32,41 @@ const Navbar = ({ history }) => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav ml-auto">
           {isAuthenticated() ? (
-            <li className={`nav-item`} onClick={handleLogout}>
-              <Link className="nav-link" to="#">
-                Logout
-              </Link>
-            </li>
+            <>
+              {isAuthenticated().user.role === 1 ? (
+                <>
+                  <li
+                    className={`nav-item ${isActive(
+                      history,
+                      "/admin/dashboard"
+                    )}`}
+                  >
+                    <Link className="nav-link" to="/admin/dashboard">
+                      Dashboard
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li
+                    className={`nav-item ${isActive(
+                      history,
+                      "/user/dashboard"
+                    )}`}
+                  >
+                    <Link className="nav-link" to="/user/dashboard">
+                      Dashboard
+                    </Link>
+                  </li>
+                </>
+              )}
+
+              <li className={`nav-item`} onClick={handleLogout}>
+                <Link className="nav-link" to="#">
+                  Logout
+                </Link>
+              </li>
+            </>
           ) : (
             <>
               <li className={`nav-item ${isActive(history, "/register")}`}>

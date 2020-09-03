@@ -5,18 +5,35 @@ import Home from "./pages/Home";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import Navbar from "./components/Navbar";
+import PrivateRoute from "./components/PrivateRoute";
+import UserDashboard from "./pages/user/UserDashboard";
+import AdminRoute from "./components/AdminRoute";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Navbar />
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/login" component={Login} />
+        <div className="container">
+          <Route exact path="/" component={Home} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
+          <PrivateRoute
+            exact
+            path="/user/dashboard"
+            component={UserDashboard}
+          />
+          {/* Admin routes */}
+          <AdminRoute
+            exact
+            path="/admin/dashboard"
+            component={AdminDashboard}
+          />
+        </div>
       </Switch>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

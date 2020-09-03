@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { login, authenticate } from "../../api/auth";
+import { login, authenticate, isAuthenticated } from "../../api/auth";
 
 const Login = (props) => {
   const [user, setUser] = useState({
@@ -35,6 +35,10 @@ const Login = (props) => {
       }
     });
   };
+
+  if (isAuthenticated()) {
+    props.history.push("/");
+  }
 
   return (
     <form className="form" onSubmit={handleSubmit}>
