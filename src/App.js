@@ -10,6 +10,7 @@ import UserDashboard from "./pages/user/UserDashboard";
 import AdminRoute from "./components/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CreateCategory from "./pages/admin/category/CreateCategory";
+import CreateProduct from "./pages/admin/product/CreateProduct";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
             path="/category/create"
             component={CreateCategory}
           />
+          <AdminRoute exact path="/product/create" component={CreateProduct} />
         </div>
       </Switch>
     </BrowserRouter>

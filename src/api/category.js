@@ -13,3 +13,14 @@ export const createCategory = async (token, category) => {
     console.log(err);
   }
 };
+
+export const getCategories = async () => {
+  try {
+    const res = await fetch("/api/category", {
+      method: "GET",
+    });
+    return res.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
