@@ -21,10 +21,10 @@ const UserDashboard = () => {
 
             <ul className="list-group">
               <li className="list-group-item">
-                <Link to="/category">Create Category</Link>
+                <Link to="/category/create">Create Category</Link>
               </li>
               <li className="list-group-item">
-                <Link to="/product">Create Product</Link>
+                <Link to="/product/create">Create Product</Link>
               </li>
             </ul>
           </div>
