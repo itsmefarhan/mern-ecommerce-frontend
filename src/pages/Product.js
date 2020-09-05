@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { getProduct } from "../api/product";
+import { getProduct, getRelatedProducts } from "../api/product";
 import Card from "../components/Card";
 
 const Product = ({ match }) => {
   const [product, setProduct] = useState({});
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const { id } = match.params;
 
   useEffect(() => {
@@ -14,8 +15,15 @@ const Product = ({ match }) => {
         setProduct(data);
       }
     });
+    getRelatedProducts(id).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setRelatedProducts(data);
+      }
+    });
   }, []);
-  console.log(product);
+
   const { title, price, quantity, createdAt, description } = product;
   return (
     <div>
@@ -43,6 +51,12 @@ const Product = ({ match }) => {
           <h4>Description</h4>
         </div>
         <div className="card-body">{description}</div>
+      </div>
+      <h3 className="mt-5">Related Products</h3>
+      <div className="row">
+        {relatedProducts.map((product) => (
+          <Card product={product} key={product._id} />
+        ))}
       </div>
     </div>
   );
