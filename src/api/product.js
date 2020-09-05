@@ -13,10 +13,10 @@ export const createProduct = async (token, product) => {
   }
 };
 
-export const getProducts = async (sortBy) => {
+export const getProducts = async (sortBy, limit = "") => {
   try {
     const res = await fetch(
-      `/api/product?sortBy=${sortBy}&order=desc&limit=3`,
+      `/api/product?sortBy=${sortBy}&order=desc&limit=${limit}`,
       {
         method: "GET",
       }
@@ -27,11 +27,19 @@ export const getProducts = async (sortBy) => {
   }
 };
 
-export const getProductsByCategory = async (categoryTitle) => {
+export const getProductsByCategory = async (
+  categoryTitle,
+  sortBy = "",
+  order = "",
+  limit = ""
+) => {
   try {
-    const res = await fetch(`/api/product/category/${categoryTitle}`, {
-      method: "GET",
-    });
+    const res = await fetch(
+      `/api/product/category/${categoryTitle}?sortBy=${sortBy}&order=${order}&limit=${limit}`,
+      {
+        method: "GET",
+      }
+    );
     return res.json();
   } catch (err) {
     console.log(err);

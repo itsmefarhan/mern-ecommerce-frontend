@@ -11,7 +11,7 @@ const Home = () => {
   const [error, setError] = useState("");
 
   const getProductsBySell = () => {
-    getProducts("sold").then((data) => {
+    getProducts("sold", 3).then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
@@ -21,7 +21,7 @@ const Home = () => {
   };
 
   const getProductsByArrival = () => {
-    getProducts("createdAt").then((data) => {
+    getProducts("createdAt", 3).then((data) => {
       if (data.error) {
         setError(data.error);
       } else {
