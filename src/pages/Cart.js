@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
 import Checkout from "../components/Checkout";
 
-const Cart = () => {
+const Cart = ({ history }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const Cart = () => {
             ))}
           </div>
           <div className="col-sm-6">
-            <Checkout items={items} />
+            <Checkout items={items} history={history} />
           </div>
         </div>
       )}
