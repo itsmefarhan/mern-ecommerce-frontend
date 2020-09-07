@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getProduct, getRelatedProducts } from "../api/product";
+import { addToCart } from "../utils";
 import Card from "../components/Card";
 
 const Product = ({ match }) => {
@@ -42,6 +43,14 @@ const Product = ({ match }) => {
           </p>
           <p className="text-lead">${price}</p>
           In Stock <span className="text-success">{quantity}</span>
+          <div className="text-center">
+            <button              
+              className="btn btn-outline-warning mt-3"
+              onClick={() => addToCart(product)}
+            >
+              Add To Cart
+            </button>
+          </div>
         </div>
       </div>
 

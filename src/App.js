@@ -13,18 +13,20 @@ import CreateCategory from "./pages/admin/category/CreateCategory";
 import CreateProduct from "./pages/admin/product/CreateProduct";
 import Products from "./pages/Products";
 import Product from "./pages/Product";
+import Cart from "./pages/Cart";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Navbar />
-      <Switch>
-        <div className="container">
+      <div className="container">
+        <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/category/:title" component={Products} />
           <Route exact path="/product/:id" component={Product} />
+          <Route exact path="/cart" component={Cart} />
           <PrivateRoute
             exact
             path="/user/dashboard"
@@ -42,8 +44,8 @@ const App = () => {
             component={CreateCategory}
           />
           <AdminRoute exact path="/product/create" component={CreateProduct} />
-        </div>
-      </Switch>
+        </Switch>
+      </div>
     </BrowserRouter>
   );
 };

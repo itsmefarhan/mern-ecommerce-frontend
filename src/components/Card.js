@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { addToCart } from "../utils";
 
 const Card = ({ product }) => {
   return (
@@ -22,7 +23,10 @@ const Card = ({ product }) => {
               View Product
             </Link>
 
-            <button className="btn btn-outline-warning mt-3">
+            <button
+              className="btn btn-outline-warning mt-3"
+              onClick={() => addToCart(product)}
+            >
               Add To Cart
             </button>
           </div>

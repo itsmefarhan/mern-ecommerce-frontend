@@ -61,7 +61,7 @@ const Products = ({ match }) => {
 
       <div className="row">
         {products.map((product) => (
-          <Card product={product} ket={product._id} />
+          <Card product={product} key={product._id} />
         ))}
       </div>
     </div>

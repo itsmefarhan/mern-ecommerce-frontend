@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { logout, isAuthenticated } from "../api/auth";
+import { totalItemsInCart } from "../utils";
 
 const Navbar = ({ history }) => {
   // Set active class
@@ -60,6 +61,12 @@ const Navbar = ({ history }) => {
                   </li>
                 </>
               )}
+              <li className={`nav-item`}>
+                <Link className="nav-link" to="/cart">
+                  Cart{" "}
+                  <sup className="badge badge-primary">{totalItemsInCart()}</sup>
+                </Link>
+              </li>
 
               <li className={`nav-item`} onClick={handleLogout}>
                 <Link className="nav-link" to="#">
