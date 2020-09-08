@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { isAuthenticated } from "../api/auth";
 import { getBraintreeToken, makePayment } from "../api/payment";
+import { createOrder } from "../api/order";
 import { Link } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
 
@@ -45,9 +46,21 @@ const Checkout = ({ items, history }) => {
         makePayment(isAuthenticated() && isAuthenticated().token, paymentData)
           .then((response) => {
             console.log(response);
-            setData({ ...data, success: response.success });
-            localStorage.removeItem("cart");
-            history.push("/");
+
+            const orderData = {
+              products: items,
+              transaction_id: response.transaction.id,
+              amount: response.transaction.amount,
+              address: data.address,
+            };
+            createOrder(
+              isAuthenticated() && isAuthenticated().token,
+              orderData
+            ).then((response) => {
+              setData({ ...data, success: true });
+              localStorage.removeItem("cart");
+              history.push("/");
+            });
           })
           .catch((err) => console.log(err));
       })
@@ -64,6 +77,14 @@ const Checkout = ({ items, history }) => {
       {isAuthenticated() ? (
         data.clientToken !== null && items.length > 0 ? (
           <div>
+            <div className="form-group mb-3">
+              <label htmlFor="address">Delivery Address</label>
+              <textarea
+                name="addredd"
+                value={data.address}
+                onChange={(e) => setData({ ...data, address: e.target.value })}
+              />
+            </div>
             <DropIn
               options={{
                 authorization: data.clientToken,

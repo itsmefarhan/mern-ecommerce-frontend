@@ -14,39 +14,49 @@ import CreateProduct from "./pages/admin/product/CreateProduct";
 import Products from "./pages/Products";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
+import CategoryProvider from "./context/category/categoryContext";
+import ProductProvider from "./context/product/productContext";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <div className="container">
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/category/:title" component={Products} />
-          <Route exact path="/product/:id" component={Product} />
-          <Route exact path="/cart" component={Cart} />
-          <PrivateRoute
-            exact
-            path="/user/dashboard"
-            component={UserDashboard}
-          />
-          {/* Admin routes */}
-          <AdminRoute
-            exact
-            path="/admin/dashboard"
-            component={AdminDashboard}
-          />
-          <AdminRoute
-            exact
-            path="/category/create"
-            component={CreateCategory}
-          />
-          <AdminRoute exact path="/product/create" component={CreateProduct} />
-        </Switch>
-      </div>
-    </BrowserRouter>
+    <CategoryProvider>
+      <ProductProvider>
+        <BrowserRouter>
+          <Navbar />
+          <div className="container">
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/category/:title" component={Products} />
+              <Route exact path="/product/:id" component={Product} />
+              <Route exact path="/cart" component={Cart} />
+              <PrivateRoute
+                exact
+                path="/user/dashboard"
+                component={UserDashboard}
+              />
+              {/* Admin routes */}
+              <AdminRoute
+                exact
+                path="/admin/dashboard"
+                component={AdminDashboard}
+              />
+              <AdminRoute
+                exact
+                path="/category/create"
+                component={CreateCategory}
+              />
+              <AdminRoute
+                exact
+                path="/product/create"
+                component={CreateProduct}
+              />
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </ProductProvider>
+    </CategoryProvider>
   );
 };
 

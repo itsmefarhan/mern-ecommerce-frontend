@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { addToCart } from "../utils";
 
 const Card = ({ product }) => {
@@ -36,4 +36,4 @@ const Card = ({ product }) => {
   );
 };
 
-export default Card;
+export default withRouter(Card);

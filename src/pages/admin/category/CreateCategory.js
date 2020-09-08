@@ -1,30 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { isAuthenticated } from "../../../api/auth";
-import { createCategory } from "../../../api/category";
+import { CategoryCtx } from "../../../context/category/categoryContext";
 
 const CreateCategory = () => {
   const [title, setTitle] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const { createCategory, error, success } = useContext(CategoryCtx);
 
   const { token } = isAuthenticated();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess(false);
-
-    createCategory(token, { title }).then((data) => {
-      if (data.error) {
-        setError(data.error);
-      } else {
-        setTitle("");
-        setSuccess(true);
-        setTimeout(() => {
-          setSuccess(false);
-        }, 2000);
-      }
-    });
+    createCategory(token, { title });
+    setTitle("");
   };
 
   return (
@@ -35,6 +22,7 @@ const CreateCategory = () => {
         </div>
       ) : null}
       {error !== "" ? <div className="alert alert-danger">{error}</div> : null}
+
       <h3 className="text-muted text-center">Create Category</h3>
       <div className="form-group">
         <label htmlFor="title">Title</label>

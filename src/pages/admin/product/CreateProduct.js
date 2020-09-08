@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { isAuthenticated } from "../../../api/auth";
-import { createProduct } from "../../../api/product";
-import { getCategories } from "../../../api/category";
+import { CategoryCtx } from "../../../context/category/categoryContext";
+import { ProductCtx } from "../../../context/product/productContext";
 
 const CreateProduct = ({ history }) => {
   const [product, setProduct] = useState({
@@ -10,11 +10,10 @@ const CreateProduct = ({ history }) => {
     price: "",
     quantity: "",
     photo: "",
-    categories: [],
     category: "",
     loading: false,
     error: "",
-    formData: "",
+    formData: new FormData(),
   });
 
   const {
@@ -23,7 +22,6 @@ const CreateProduct = ({ history }) => {
     price,
     quantity,
     photo,
-    categories,
     category,
     loading,
     error,
@@ -32,14 +30,11 @@ const CreateProduct = ({ history }) => {
 
   const { token } = isAuthenticated();
 
+  const { getCategories, categories } = useContext(CategoryCtx);
+  const { createProduct } = useContext(ProductCtx);
+
   useEffect(() => {
-    getCategories().then((data) => {
-      if (data.error) {
-        setProduct({ ...product, error: data.error });
-      } else {
-        setProduct({ ...product, categories: data, formData: new FormData() });
-      }
-    });
+    getCategories();
   }, []);
 
   const handleChange = (name) => (e) => {
@@ -57,25 +52,19 @@ const CreateProduct = ({ history }) => {
       return;
     }
 
-    createProduct(token, formData).then((data) => {
-      if (data.error) {
-        setProduct({ ...product, error: data.error, loading: false });
-      } else {
-        setProduct({
-          title: "",
-          description: "",
-          price: "",
-          quantity: "",
-          photo: "",
-          categories: [],
-          category: "",
-          loading: false,
-          error: "",
-          formData: "",
-        });
-        history.push("/admin/dashboard");
-      }
+    createProduct(token, formData);
+    setProduct({
+      title: "",
+      description: "",
+      price: "",
+      quantity: "",
+      photo: "",
+      category: "",
+      loading: false,
+      error: "",
+      formData: new FormData(),
     });
+    history.push("/admin/dashboard");
   };
 
   return (

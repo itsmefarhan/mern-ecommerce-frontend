@@ -1,28 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { getProductsByCategory } from "../api/product";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { ProductCtx } from "../context/product/productContext";
 import Card from "../components/Card";
 
 const Products = ({ match }) => {
-  const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("");
   const { title } = match.params;
 
   const [order, setOrder] = useState("");
   const [sortBy, setSortBy] = useState("");
 
+  const { getProductsByCategory, products } = useContext(ProductCtx);
+
   useEffect(() => {
     getProductsByCategory(
       title.charAt(0).toUpperCase() + title.slice(1),
       sortBy,
       order
-    ).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setProducts(data);
-      }
-    });
+    );
 
     if (filter === "low") {
       setSortBy("price");

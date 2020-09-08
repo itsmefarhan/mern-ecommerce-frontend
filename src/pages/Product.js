@@ -1,29 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { getProduct, getRelatedProducts } from "../api/product";
+import React, { useEffect, useContext } from "react";
+import { ProductCtx } from "../context/product/productContext";
 import { addToCart } from "../utils";
 import Card from "../components/Card";
 
 const Product = ({ match }) => {
-  const [product, setProduct] = useState({});
-  const [relatedProducts, setRelatedProducts] = useState([]);
   const { id } = match.params;
 
+  const { getProduct, getRelatedProducts, product, products } = useContext(
+    ProductCtx
+  );
+
   useEffect(() => {
-    getProduct(id).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setProduct(data);
-      }
-    });
-    getRelatedProducts(id).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setRelatedProducts(data);
-      }
-    });
-  }, []);
+    getProduct(id);
+    getRelatedProducts(id);
+  }, [id]);
 
   const { title, price, quantity, createdAt, description } = product;
   return (
@@ -44,7 +34,7 @@ const Product = ({ match }) => {
           <p className="text-lead">${price}</p>
           In Stock <span className="text-success">{quantity}</span>
           <div className="text-center">
-            <button              
+            <button
               className="btn btn-outline-warning mt-3"
               onClick={() => addToCart(product)}
             >
@@ -63,7 +53,7 @@ const Product = ({ match }) => {
       </div>
       <h3 className="mt-5">Related Products</h3>
       <div className="row">
-        {relatedProducts.map((product) => (
+        {products.map((product) => (
           <Card product={product} key={product._id} />
         ))}
       </div>
