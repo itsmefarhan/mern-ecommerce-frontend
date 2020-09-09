@@ -11,6 +11,7 @@ import AdminRoute from "./components/AdminRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CreateCategory from "./pages/admin/category/CreateCategory";
 import CreateProduct from "./pages/admin/product/CreateProduct";
+import Orders from "./pages/admin/order/Orders";
 import Products from "./pages/Products";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
@@ -52,6 +53,7 @@ const App = () => {
                 path="/product/create"
                 component={CreateProduct}
               />
+              <AdminRoute exact path="/order" component={Orders} />
             </Switch>
           </div>
         </BrowserRouter>

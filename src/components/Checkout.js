@@ -33,41 +33,36 @@ const Checkout = ({ items, history }) => {
   const total = () =>
     items.reduce((acc, i) => acc + i.count * i.price, 0).toFixed(2);
 
-  const pay = () => {
-    let nonce;
-    data.instance
-      .requestPaymentMethod()
-      .then((data) => {
-        nonce = data.nonce;
-        const paymentData = {
-          paymentMethodNonce: nonce,
-          amount: total(items),
-        };
-        makePayment(isAuthenticated() && isAuthenticated().token, paymentData)
-          .then((response) => {
-            console.log(response);
-
-            const orderData = {
-              products: items,
-              transaction_id: response.transaction.id,
-              amount: response.transaction.amount,
-              address: data.address,
-            };
-            createOrder(
-              isAuthenticated() && isAuthenticated().token,
-              orderData
-            ).then((response) => {
-              setData({ ...data, success: true });
-              localStorage.removeItem("cart");
-              history.push("/");
-            });
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => {
-        console.log(err);
-        setData({ ...data, error: err.message });
-      });
+  const pay = async () => {
+    try {
+      let nonce;
+      const res = await data.instance.requestPaymentMethod();
+      nonce = res.nonce;
+      const paymentData = {
+        paymentMethodNonce: nonce,
+        amount: total(items),
+      };
+      const response = await makePayment(
+        isAuthenticated() && isAuthenticated().token,
+        paymentData
+      );
+      const orderData = {
+        products: items,
+        transaction_id: response.transaction.id,
+        amount: response.transaction.amount,
+        address: data.address,
+      };
+      await createOrder(
+        isAuthenticated() && isAuthenticated().token,
+        orderData
+      );
+      setData({ ...data, success: true });
+      localStorage.removeItem("cart");
+      history.push("/");
+    } catch (err) {
+      console.log(err);
+      setData({ ...data, error: err.message });
+    }
   };
 
   return (
